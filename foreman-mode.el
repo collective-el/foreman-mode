@@ -58,6 +58,7 @@
 (define-key foreman-mode-map "e" 'foreman-edit-env)
 (define-key foreman-mode-map "n" 'foreman-next-line)
 (define-key foreman-mode-map "p" 'foreman-previous-line)
+(define-key foreman-mode-map "a" 'foreman-signal-proc)
 
 (define-derived-mode foreman-mode tabulated-list-mode "Foreman"
   "foreman-mode to manage procfile-based applications"
@@ -224,6 +225,22 @@
         (lambda (variable) (insert (format "%s\n" variable))))
       (goto-line 7))
     (switch-to-buffer buffer)))
+
+(defun foreman-signal-proc (sig)
+  (interactive "nSignal number: ")
+  (let* ((task-id (get-text-property (point) 'tabulated-list-id))
+         (task (cdr (assoc task-id foreman-tasks)))
+         (process (cdr (assoc 'process task))))
+    (when (process-live-p process)
+      (foreman-signal-process-timeout process 2 sig)
+      (revert-buffer))))
+
+(defun foreman-signal-process-timeout (process timeout sig)
+  (signal-process process sig)
+  (with-timeout (timeout nil)
+    (while (process-live-p process)
+      (sit-for .05))
+    t))
 
 (defun foreman-start-proc ()
   (interactive)
