@@ -5,7 +5,7 @@
 ;; Author: ZHOU Feng <zf.pascal@gmail.com>
 ;; URL: http://github.com/zweifisch/foreman-mode
 ;; Keywords: foreman
-;; Version: 0.0.1
+;; Version: 0.0.1.1
 ;; Created: 17th Apr 2015
 ;; Package-Requires: ((s "1.9.0") (dash "2.10.0") (dash-functional "1.2.0") (f "0.17.2") (emacs "24"))
 
