@@ -260,7 +260,7 @@
              (process (with-current-buffer buffer
                         (erase-buffer)
                         (let ((process-environment (append env process-environment)))
-                          (apply 'start-process-shell-command name buffer (s-split " +" command))))))
+                          (funcall 'start-process-shell-command name buffer command)))))
         (set-process-filter process 'foreman-process-output-filter)
         (if (assoc 'buffer task)
             (setf (cdr (assoc 'buffer task)) buffer)
